@@ -12,18 +12,21 @@ class RetryPropertiesTest {
 
     @Test
     void defaults() {
-        var properties = new RetryProperties(false, null);
-        assertNotNull(properties.exchanges());
-        assertTrue(properties.exchanges().isEmpty());
+        var properties = new RetryProperties(false, null, null);
+        assertNotNull(properties.queues());
+        assertTrue(properties.queues().isEmpty());
 
-        var exchangeProperties = new RetryProperties.RetryExchangeProperties(Collections.singletonList(Duration.of(10L, ChronoUnit.SECONDS)), null);
+        assertNotNull(properties.preserveHeaders());
+        assertTrue(properties.preserveHeaders().isEmpty());
+
+        var exchangeProperties = new RetryProperties.RetryQueueProperties(Collections.singletonList(Duration.of(10L, ChronoUnit.SECONDS)), null);
         assertNull(exchangeProperties.maxRetries());
     }
 
     @Test
     void validations() {
-        assertThrows(IllegalArgumentException.class, () -> new RetryProperties.RetryExchangeProperties(null, null));
-        assertThrows(IllegalArgumentException.class, () -> new RetryProperties.RetryExchangeProperties(Collections.emptyList(), null));
-        assertThrows(IllegalArgumentException.class, () -> new RetryProperties.RetryExchangeProperties(Collections.singletonList(Duration.of(10L, ChronoUnit.SECONDS)), -1));
+        assertThrows(IllegalArgumentException.class, () -> new RetryProperties.RetryQueueProperties(null, null));
+        assertThrows(IllegalArgumentException.class, () -> new RetryProperties.RetryQueueProperties(Collections.emptyList(), null));
+        assertThrows(IllegalArgumentException.class, () -> new RetryProperties.RetryQueueProperties(Collections.singletonList(Duration.of(10L, ChronoUnit.SECONDS)), -1));
     }
 }
