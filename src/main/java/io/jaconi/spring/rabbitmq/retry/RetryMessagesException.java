@@ -1,10 +1,9 @@
 package io.jaconi.spring.rabbitmq.retry;
 
-import org.springframework.messaging.Message;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import org.springframework.messaging.Message;
 
 public class RetryMessagesException extends RuntimeException {
     private final Collection<Message<?>> messages;

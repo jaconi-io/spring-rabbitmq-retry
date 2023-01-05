@@ -1,29 +1,31 @@
 package io.jaconi.spring.rabbitmq.retry;
 
-import org.junit.jupiter.api.Test;
-
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 import java.util.Collections;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class RetryPropertiesTest {
 
     @Test
     void defaults() {
         var properties = new RetryProperties(false, null);
-        assertNotNull(properties.exchanges());
-        assertTrue(properties.exchanges().isEmpty());
+        assertNotNull(properties.queues());
+        assertTrue(properties.queues().isEmpty());
 
-        var exchangeProperties = new RetryProperties.RetryExchangeProperties(Collections.singletonList(Duration.of(10L, ChronoUnit.SECONDS)), null);
+        var exchangeProperties = new RetryProperties.RetryQueueProperties(Collections.singletonList(Duration.of(10L, ChronoUnit.SECONDS)), null);
         assertNull(exchangeProperties.maxRetries());
     }
 
     @Test
     void validations() {
-        assertThrows(IllegalArgumentException.class, () -> new RetryProperties.RetryExchangeProperties(null, null));
-        assertThrows(IllegalArgumentException.class, () -> new RetryProperties.RetryExchangeProperties(Collections.emptyList(), null));
-        assertThrows(IllegalArgumentException.class, () -> new RetryProperties.RetryExchangeProperties(Collections.singletonList(Duration.of(10L, ChronoUnit.SECONDS)), -1));
+        assertThrows(IllegalArgumentException.class, () -> new RetryProperties.RetryQueueProperties(null, null));
+        assertThrows(IllegalArgumentException.class, () -> new RetryProperties.RetryQueueProperties(Collections.emptyList(), null));
+        assertThrows(IllegalArgumentException.class, () -> new RetryProperties.RetryQueueProperties(Collections.singletonList(Duration.of(10L, ChronoUnit.SECONDS)), -1));
     }
 }
