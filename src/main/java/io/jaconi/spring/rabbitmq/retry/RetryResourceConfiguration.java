@@ -1,5 +1,6 @@
 package io.jaconi.spring.rabbitmq.retry;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.ExchangeBuilder;
 import org.springframework.amqp.core.QueueBuilder;
@@ -7,7 +8,6 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Configuration;
@@ -17,9 +17,9 @@ import java.util.Map;
 
 @Configuration
 @ConditionalOnProperty({"retry.enabled", "retry.create-resources"})
+@RequiredArgsConstructor
 public class RetryResourceConfiguration implements BeanFactoryAware, InitializingBean {
-    @Autowired
-    private RetryProperties properties;
+    private final RetryProperties properties;
 
     private ConfigurableBeanFactory beanFactory;
 
