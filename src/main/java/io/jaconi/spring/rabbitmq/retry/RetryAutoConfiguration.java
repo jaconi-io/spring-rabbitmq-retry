@@ -6,15 +6,19 @@ import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.config.ContainerCustomizer;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
 @Configuration
+@AutoConfigureAfter(RabbitAutoConfiguration.class)
 @ConditionalOnProperty(value = "retry.enabled", havingValue = "true")
 @EnableConfigurationProperties(RetryProperties.class)
-@SuppressWarnings("unused")
+@Import({RetryErrorHandler.class, RetryResourceConfiguration.class})
 public class RetryAutoConfiguration {
     private static final String NOOP_LOGGER = "io.jaconi.spring.rabbitmq.retry.noop";
 
