@@ -1,21 +1,24 @@
-retry:
-  # Enable or disable the retry functionality entirely.
-  enabled: true
+jaconi:
+  rabbitmq:
+    listener:
+      retry:
+        # Enable or disable the retry functionality entirely.
+        enabled: true
 
-  # Create the RabbitMQ resources (exchanges and queues) automatically.
-  create-resources: true
+        # Create the RabbitMQ resources (exchanges and queues) automatically.
+        create-resources: true
 
-  # Configure the source queues. Messages from these queues will be retried.
-  queues: [ ]
-     # Messages originating from a queue named com.example.exchange will be retried.
-     # "[com.example.queue]":
-     # A message will be retried 5 times before being sent to a DLX or discarded.
-     #   max-retries: 5
-     #   durations:
-     # The first retry will happen after 10 Seconds.
-     #     - 10s
-     # The second retry will happen after another 15 Seconds.
-     #     - 15s
-     # The third retry will happen after another 30 Seconds. All subsequent retries (up to max-retries) will happen
-     # another 30 seconds after the previous retry.
-     #     - 30s
+        # Configure the source queues. Messages from these queues will be retried.
+        queues: [ ]
+           # Messages originating from a queue named com.example.exchange will be retried.
+           # "[com.example.queue]":
+           # A message will be retried 5 times before being sent to a DLX or discarded.
+           #   max-retries: 5
+           #   durations:
+           # The first retry will happen after 10 Seconds.
+           #     - 10s
+           # The second retry will happen after another 15 Seconds.
+           #     - 15s
+           # The third retry will happen after another 30 Seconds. All subsequent retries (up to max-retries) will happen
+           # another 30 seconds after the previous retry.
+           #     - 30s

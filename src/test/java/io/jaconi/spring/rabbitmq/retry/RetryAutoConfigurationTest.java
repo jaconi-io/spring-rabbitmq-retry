@@ -24,7 +24,7 @@ class RetryAutoConfigurationTest {
     @Test
     public void testAutoConfiguration_disabled() {
         this.contextRunner
-                .withPropertyValues("retry.enabled=false")
+                .withPropertyValues("jaconi.rabbitmq.listener.retry.enabled=false")
                 .run(context -> {
                     assertThat(context).hasNotFailed();
                     assertThat(context).doesNotHaveBean("retryContainerCustomizer");
@@ -34,7 +34,7 @@ class RetryAutoConfigurationTest {
     @Test
     public void testAutoConfiguration_enabled() {
         this.contextRunner
-                .withPropertyValues("retry.enabled=true")
+                .withPropertyValues("jaconi.rabbitmq.listener.retry.enabled=true")
                 .run(context -> {
                     assertThat(context).hasNotFailed();
                     assertThat(context).hasBean("retryContainerCustomizer");

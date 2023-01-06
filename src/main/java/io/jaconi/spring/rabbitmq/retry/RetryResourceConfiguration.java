@@ -17,7 +17,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.lang.NonNull;
 
 @Configuration
-@ConditionalOnProperty({"retry.enabled", "retry.create-resources"})
+@ConditionalOnProperty(value = {"jaconi.rabbitmq.listener.retry.enabled",
+        "jaconi.rabbitmq.listener.retry.create-resources"}, havingValue = "true")
 @RequiredArgsConstructor
 public class RetryResourceConfiguration implements BeanFactoryAware, InitializingBean {
 
@@ -60,7 +61,7 @@ public class RetryResourceConfiguration implements BeanFactoryAware, Initializin
 
             // Bind the original source queue to the dispatch exchange.
             var dispatchBinding = new Binding(sourceQueue, Binding.DestinationType.QUEUE, dispatchExchangeName, "#",
-                    Collections.<String, Object>emptyMap());
+                    Collections.emptyMap());
             beanFactory.registerSingleton(dispatchBinding.toString(), dispatchBinding);
 
             // Define the required retry queues.
