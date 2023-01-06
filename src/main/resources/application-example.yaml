@@ -13,12 +13,12 @@ jaconi:
            # Messages originating from a queue named com.example.exchange will be retried.
            # "[com.example.queue]":
            # A message will be retried 5 times before being sent to a DLX or discarded.
-           #   max-retries: 5
+           #   max-attempts: 5
            #   durations:
-           # The first retry will happen after 10 Seconds.
+           # The first attempt will happen after 10 Seconds.
            #     - 10s
-           # The second retry will happen after another 15 Seconds.
+           # The second attempt will happen after another 15 Seconds.
            #     - 15s
-           # The third retry will happen after another 30 Seconds. All subsequent retries (up to max-retries) will happen
-           # another 30 seconds after the previous retry.
+           # The third attempt will happen after another 30 Seconds. All subsequent attempts (up to max-attempts) will
+           # happen another 30 seconds after the previous attempt.
            #     - 30s

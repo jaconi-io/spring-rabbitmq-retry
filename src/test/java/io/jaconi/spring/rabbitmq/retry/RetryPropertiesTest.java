@@ -19,7 +19,7 @@ class RetryPropertiesTest {
         assertTrue(properties.queues().isEmpty());
 
         var exchangeProperties = new RetryProperties.RetryQueueProperties(Collections.singletonList(Duration.of(10L, ChronoUnit.SECONDS)), null);
-        assertNull(exchangeProperties.maxRetries());
+        assertNull(exchangeProperties.maxAttempts());
     }
 
     @Test
