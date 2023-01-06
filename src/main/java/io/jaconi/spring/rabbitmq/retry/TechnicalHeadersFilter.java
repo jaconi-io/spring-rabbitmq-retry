@@ -21,7 +21,7 @@ public class TechnicalHeadersFilter {
         return messageHeaders
                 .keySet()
                 .stream()
-                // Remove all headers starting with "x-" or "amqp_" as well as heaaers in EXCLUDE_HEADERS
+                // Remove all headers starting with "x-" or "amqp_" as well as headers in EXCLUDE_HEADERS
                 .filter(h -> !(h.startsWith("x-") || h.startsWith(AmqpHeaders.PREFIX) || EXCLUDE_HEADERS.contains(h)))
                 .collect(Collectors.toSet());
     }
