@@ -2,10 +2,10 @@ package io.jaconi.spring.rabbitmq.retry;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.config.ContainerCustomizer;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -19,17 +19,17 @@ import org.springframework.context.annotation.Import;
 @ConditionalOnProperty(value = "retry.enabled", havingValue = "true")
 @EnableConfigurationProperties(RetryProperties.class)
 @Import({RetryErrorHandler.class, RetryResourceConfiguration.class})
+@RequiredArgsConstructor
 public class RetryAutoConfiguration {
     private static final String NOOP_LOGGER = "io.jaconi.spring.rabbitmq.retry.noop";
 
-    @Autowired
-    private RetryErrorHandler errorHandler;
+    private final RetryErrorHandler retryErrorHandler;
 
     @Bean
     public ContainerCustomizer<SimpleMessageListenerContainer> retryContainerCustomizer() {
         return container -> {
             // Use a custom error handler to take care of RetryMessageExceptions.
-            container.setErrorHandler(errorHandler);
+            container.setErrorHandler(retryErrorHandler);
 
             // Configure a noop logger. The only messages written to this logger are stack traces for
             // ImmediateAcknowledgeAmqpExceptions thrown due to RetryMessagesExceptions. These usually should not be
