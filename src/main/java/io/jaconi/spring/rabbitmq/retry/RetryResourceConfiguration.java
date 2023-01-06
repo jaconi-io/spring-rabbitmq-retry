@@ -35,7 +35,7 @@ public class RetryResourceConfiguration implements BeanFactoryAware, Initializin
     public void afterPropertiesSet() {
         for (var sourceQueue : properties.queues().keySet()) {
             // Create a dedicated dead letter exchange per source queue. The dead letter exchange is used, when
-            // all retries failed.
+            // all attempts failed.
             var dlxName = RetryProperties.DEAD_LETTER_EXCHANGE_PATTERN.formatted(sourceQueue);
             var dlx = ExchangeBuilder.topicExchange(dlxName).build();
             beanFactory.registerSingleton(dlx.toString(), dlx);
@@ -81,8 +81,8 @@ public class RetryResourceConfiguration implements BeanFactoryAware, Initializin
 
             // Bind the retry queues to the retry exchange. Bind any additional attempts to the last queue.
             int bindings = queueProperties.durations().size();
-            if (queueProperties.maxRetries() != null) {
-                bindings = Math.max(queueProperties.maxRetries(), queueProperties.durations().size());
+            if (queueProperties.maxAttempts() != null) {
+                bindings = Math.max(queueProperties.maxAttempts(), queueProperties.durations().size());
             }
             for (int i = 0; i < bindings; i++) {
                 var queue = queues.get(Math.min(i, queues.size() - 1));

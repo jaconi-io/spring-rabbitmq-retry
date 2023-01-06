@@ -23,11 +23,11 @@ public record RetryProperties(boolean enabled, Map<String, RetryQueueProperties>
         }
     }
 
-    public record RetryQueueProperties(List<Duration> durations, Integer maxRetries) {
+    public record RetryQueueProperties(List<Duration> durations, Integer maxAttempts) {
         public RetryQueueProperties {
             Assert.notNull(durations, "durations are missing");
             Assert.notEmpty(durations, "at least one duration is required");
-            Assert.isTrue(maxRetries == null || maxRetries >= 0, "max-retries must be greater than or equal to zero");
+            Assert.isTrue(maxAttempts == null || maxAttempts >= 0, "max-attempts must be greater than or equal to zero");
         }
     }
 }
