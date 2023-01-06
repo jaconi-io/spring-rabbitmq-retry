@@ -1,13 +1,17 @@
 package io.jaconi.spring.rabbitmq.retry;
 
+import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.ImmediateAcknowledgeAmqpException;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.rabbit.listener.ConditionalRejectingErrorHandler;
 import org.springframework.amqp.rabbit.support.ListenerExecutionFailedException;
 import org.springframework.amqp.support.AmqpHeaders;
+import org.springframework.amqp.support.converter.DefaultClassMapper;
 import org.springframework.lang.NonNull;
 import org.springframework.messaging.Message;
+import org.springframework.messaging.MessageHeaders;
 import org.springframework.stereotype.Component;
 
 /**
@@ -21,7 +25,8 @@ import org.springframework.stereotype.Component;
 public class RetryErrorHandler extends ConditionalRejectingErrorHandler {
     private final AmqpTemplate amqpTemplate;
 
-    private final RetryProperties retryProperties;
+    private static final Set<String> EXCLUDE_HEADERS = Set.of(MessageHeaders.CONTENT_TYPE, MessageHeaders.ID,
+            MessageHeaders.TIMESTAMP, MessageHeaders.ERROR_CHANNEL, MessageHeaders.REPLY_CHANNEL, DefaultClassMapper.DEFAULT_CLASSID_FIELD_NAME);
 
     public RetryErrorHandler(AmqpTemplate amqpTemplate, RetryProperties retryProperties) {
         super(new DefaultExceptionStrategy() {
@@ -33,7 +38,6 @@ public class RetryErrorHandler extends ConditionalRejectingErrorHandler {
         });
 
         this.amqpTemplate = amqpTemplate;
-        this.retryProperties = retryProperties;
     }
 
     @Override
@@ -53,13 +57,24 @@ public class RetryErrorHandler extends ConditionalRejectingErrorHandler {
         var routingKey = message.getHeaders().get(AmqpHeaders.RECEIVED_ROUTING_KEY, String.class);
         amqpTemplate.convertAndSend(getRetryExchange(message), routingKey, message.getPayload(), m -> {
             m.getMessageProperties().setHeader(RetryProperties.RETRY_HEADER, retry);
-            retryProperties.preserveHeaders().forEach(h -> {
-                if (message.getHeaders().containsKey(h)) {
-                    m.getMessageProperties().setHeader(h, message.getHeaders().get(h));
-                }
-            });
+            filteredHeaders(message.getHeaders())
+                    .forEach(h -> m.getMessageProperties().setHeader(h, message.getHeaders().get(h)));
             return m;
         });
+    }
+
+    /**
+     * Determine the headers to send to the retry exchange
+     *
+     * @param messageHeaders The headers of the incoming message.
+     * @return The header names to keep.
+     */
+    private Set<String> filteredHeaders(MessageHeaders messageHeaders) {
+        return messageHeaders
+                .keySet()
+                .stream()
+                .filter(h -> !(h.startsWith("x-") || h.startsWith(AmqpHeaders.PREFIX) || EXCLUDE_HEADERS.contains(h)))
+                .collect(Collectors.toSet());
     }
 
     /**

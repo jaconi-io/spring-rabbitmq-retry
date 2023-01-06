@@ -1,16 +1,14 @@
 package io.jaconi.spring.rabbitmq.retry;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.util.Assert;
-
 import java.time.Duration;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.util.Assert;
 
 @ConfigurationProperties(prefix = "retry")
-public record RetryProperties(boolean enabled, Map<String, RetryQueueProperties> queues, Set<String> preserveHeaders) {
+public record RetryProperties(boolean enabled, Map<String, RetryQueueProperties> queues) {
     static final String DEAD_LETTER_EXCHANGE_PATTERN = "%s-retry-never";
     static final String DEAD_LETTER_QUEUE_PATTERN = "%s-retry-never";
     static final String RETRY_EXCHANGE_PATTERN = "%s-retry";
@@ -22,9 +20,6 @@ public record RetryProperties(boolean enabled, Map<String, RetryQueueProperties>
     public RetryProperties {
         if (queues == null) {
             queues = Collections.emptyMap();
-        }
-        if (preserveHeaders == null) {
-            preserveHeaders = Collections.emptySet();
         }
     }
 

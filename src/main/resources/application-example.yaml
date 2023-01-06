@@ -19,8 +19,3 @@ retry:
      # The third retry will happen after another 30 Seconds. All subsequent retries (up to max-retries) will happen
      # another 30 seconds after the previous retry.
      #     - 30s
-
-  # Configure the headers to be preserved when sending a message to the retry exchange
-  preserve-headers: [ ]
-    # - tenant_id
-    # - user_id
