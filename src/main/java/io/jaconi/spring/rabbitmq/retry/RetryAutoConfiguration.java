@@ -6,16 +6,14 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.config.ContainerCustomizer;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
-@Configuration
-@AutoConfigureAfter(RabbitAutoConfiguration.class)
+@AutoConfiguration(after = RabbitAutoConfiguration.class)
 @ConditionalOnProperty(value = "retry.enabled", havingValue = "true")
 @EnableConfigurationProperties(RetryProperties.class)
 @Import({RetryErrorHandler.class, RetryResourceConfiguration.class})
