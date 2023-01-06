@@ -7,7 +7,7 @@ import java.util.Map;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.util.Assert;
 
-@ConfigurationProperties(prefix = "retry")
+@ConfigurationProperties(prefix = "jaconi.rabbitmq.listener.retry")
 public record RetryProperties(boolean enabled, Map<String, RetryQueueProperties> queues) {
     static final String DEAD_LETTER_EXCHANGE_PATTERN = "%s-retry-never";
     static final String DEAD_LETTER_QUEUE_PATTERN = "%s-retry-never";

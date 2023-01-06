@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 
 @AutoConfiguration(after = RabbitAutoConfiguration.class)
-@ConditionalOnProperty(value = "retry.enabled", havingValue = "true")
+@ConditionalOnProperty(value = "jaconi.rabbitmq.listener.retry.enabled", havingValue = "true")
 @EnableConfigurationProperties(RetryProperties.class)
 @Import({RetryErrorHandler.class, RetryResourceConfiguration.class})
 @RequiredArgsConstructor
