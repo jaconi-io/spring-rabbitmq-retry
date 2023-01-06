@@ -50,6 +50,8 @@ public class RetryErrorHandler extends ConditionalRejectingErrorHandler {
         var routingKey = message.getHeaders().get(AmqpHeaders.RECEIVED_ROUTING_KEY, String.class);
         amqpTemplate.convertAndSend(getRetryExchange(message), routingKey, message.getPayload(), m -> {
             m.getMessageProperties().setHeader(RetryProperties.RETRY_HEADER, retry);
+            TechnicalHeadersFilter.filterHeaders(message.getHeaders())
+                    .forEach(h -> m.getMessageProperties().setHeader(h, message.getHeaders().get(h)));
             return m;
         });
     }
