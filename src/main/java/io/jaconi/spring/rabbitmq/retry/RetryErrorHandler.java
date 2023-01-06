@@ -5,6 +5,7 @@ import org.springframework.amqp.ImmediateAcknowledgeAmqpException;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.rabbit.listener.ConditionalRejectingErrorHandler;
 import org.springframework.amqp.rabbit.support.ListenerExecutionFailedException;
+import org.springframework.amqp.support.AmqpHeaders;
 import org.springframework.lang.NonNull;
 import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
@@ -46,7 +47,7 @@ public class RetryErrorHandler extends ConditionalRejectingErrorHandler {
         var retry = getRetry(message);
         log.info("retrying message (attempt {}): {}", retry, message);
 
-        var routingKey = message.getHeaders().get("amqp_receivedRoutingKey", String.class);
+        var routingKey = message.getHeaders().get(AmqpHeaders.RECEIVED_ROUTING_KEY, String.class);
         amqpTemplate.convertAndSend(getRetryExchange(message), routingKey, message.getPayload(), m -> {
             m.getMessageProperties().setHeader(RetryProperties.RETRY_HEADER, retry);
             return m;
@@ -75,6 +76,6 @@ public class RetryErrorHandler extends ConditionalRejectingErrorHandler {
      * @return the retry exchange
      */
     private String getRetryExchange(Message<?> message) {
-        return RetryProperties.RETRY_EXCHANGE_PATTERN.formatted(message.getHeaders().get("amqp_receivedExchange", String.class));
+        return RetryProperties.RETRY_EXCHANGE_PATTERN.formatted(message.getHeaders().get(AmqpHeaders.CONSUMER_QUEUE, String.class));
     }
 }
