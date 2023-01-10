@@ -1,0 +1,25 @@
+branches:
+- main
+
+plugins:
+- - "@semantic-release/commit-analyzer"
+  - releaseRules:
+    - type: chore
+      scope: deps
+      release: patch
+
+- "@semantic-release/release-notes-generator"
+
+- - "@semantic-release/changelog"
+  - changelogFile: "CHANGELOG.md"
+
+- - "@semantic-release/exec"
+  - prepareCmd: sed -i 's/^version = ".*"$/version = "${nextRelease.version}"/' build.gradle.kts
+
+- - "@semantic-release/git"
+  - message: "chore(release): ${nextRelease.version}\n\n${nextRelease.notes}"
+    assets:
+    - "build.gradle.kts"
+    - "CHANGELOG.md"
+
+- - "@semantic-release/github"

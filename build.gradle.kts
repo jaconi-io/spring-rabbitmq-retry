@@ -8,7 +8,11 @@ plugins {
 }
 
 group = "io.jaconi"
-version = "0.0.1-SNAPSHOT"
+version = "0.0.1"
+
+if (project.properties["release"] != "true") {
+	project.version = "${project.version}-SNAPSHOT"
+}
 
 dependencyManagement {
 	imports {
