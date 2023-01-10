@@ -11,19 +11,11 @@ on:
 jobs:
   lint:
     runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
 
     steps:
-      - uses: actions/checkout@v3
-        if: github.event_name != 'pull_request'
-        with:
-          # We need ${{github.event.pull_request.commits}} + 1 commits.
-          fetch-depth: 0
-          # Use a different token so subsequent workflows are executed.
-          # See https://github.community/t/action-does-not-trigger-another-on-push-tag-action/17148
-          token: ${{ secrets.SEMANTIC_RELEASE_GITHUB_TOKEN }}
 
       - uses: actions/checkout@v3
-        if: github.event_name == 'pull_request'
         with:
           # We need ${{github.event.pull_request.commits}} + 1 commits.
           fetch-depth: 0
@@ -38,7 +30,7 @@ jobs:
         run: |
           yarn add @commitlint/cli
           yarn add @commitlint/config-conventional
-          yarn run commitlint --from HEAD~${{ github.event.pull_request.commits }} --to HEAD
+          yarn run commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
 
   test:
     runs-on: ubuntu-latest
