@@ -62,10 +62,16 @@ jobs:
           report_paths: 'build/test-results/*/*.xml'
 
   release:
-    if: github.event_name == 'push'
     needs:
       - lint
       - test
+    # Workaround to make release run even though lint didn't (which is the case for a PR merge to main)
+    # See: https://stackoverflow.com/questions/68945610/how-to-put-conditional-job-in-need-of-another-job-in-github-action
+    if: |
+      always() &&
+      github.event_name == 'push' &&
+      (needs.lint.result == 'success' || needs.lint.result == 'skipped') && 
+      needs.test.result == 'success'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
