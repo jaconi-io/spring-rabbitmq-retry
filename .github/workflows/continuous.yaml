@@ -4,18 +4,49 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  ci:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        if: github.event_name != 'pull_request'
+        with:
+          # We need ${{github.event.pull_request.commits}} + 1 commits.
+          fetch-depth: 0
+          # Use a different token so subsequent workflows are executed.
+          # See https://github.community/t/action-does-not-trigger-another-on-push-tag-action/17148
+          token: ${{ secrets.SEMANTIC_RELEASE_GITHUB_TOKEN }}
+
+      - uses: actions/checkout@v3
+        if: github.event_name == 'pull_request'
+        with:
+          # We need ${{github.event.pull_request.commits}} + 1 commits.
+          fetch-depth: 0
+          token: ${{ github.token }}
+
+      - name: Install node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Lint commit message(s)
+        run: |
+          yarn add @commitlint/cli
+          yarn add @commitlint/config-conventional
+          yarn run commitlint --from HEAD~${{ github.event.pull_request.commits }} --to HEAD
+
+  test:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          # Use a different token so subsequent workflows are executed.
-          # See https://github.community/t/action-does-not-trigger-another-on-push-tag-action/17148
-          token: ${{ secrets.SEMANTIC_RELEASE_GITHUB_TOKEN }}
           fetch-depth: 0
 
       - name: Install Java
@@ -37,6 +68,21 @@ jobs:
         uses: mikepenz/action-junit-report@v3
         with:
           report_paths: 'build/test-results/*/*.xml'
+
+  release:
+    if: github.event_name == 'push'
+    needs:
+      - lint
+      - test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          # Use a different token so subsequent workflows are executed.
+          # See https://github.community/t/action-does-not-trigger-another-on-push-tag-action/17148
+          token: ${{ secrets.SEMANTIC_RELEASE_GITHUB_TOKEN }}
+          fetch-depth: 0
 
       - name: Semantic Release
         uses: cycjimmy/semantic-release-action@v3
