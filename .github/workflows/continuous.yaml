@@ -1,0 +1,87 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+
+    steps:
+
+      - uses: actions/checkout@v3
+        with:
+          # We need ${{github.event.pull_request.commits}} + 1 commits.
+          fetch-depth: 0
+          token: ${{ github.token }}
+
+      - name: Install node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Lint commit message(s)
+        run: |
+          yarn add @commitlint/cli
+          yarn add @commitlint/config-conventional
+          yarn run commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
+
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Install Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Validate Gradle wrapper
+        uses: gradle/wrapper-validation-action@v1
+
+      - name: Test with Gradle
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: clean check
+
+      - name: JUnit Report
+        if: always() # always run even if the previous step fails
+        uses: mikepenz/action-junit-report@v3
+        with:
+          report_paths: 'build/test-results/*/*.xml'
+
+  release:
+    if: github.event_name == 'push'
+    needs:
+      - lint
+      - test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          # Use a different token so subsequent workflows are executed.
+          # See https://github.community/t/action-does-not-trigger-another-on-push-tag-action/17148
+          token: ${{ secrets.SEMANTIC_RELEASE_GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Semantic Release
+        uses: cycjimmy/semantic-release-action@v3
+        with:
+          extra_plugins: |
+            @semantic-release/exec
+            @semantic-release/git
+        env:
+          GITHUB_TOKEN: ${{ secrets.SEMANTIC_RELEASE_GITHUB_TOKEN }}
+          GITHUB_REPO: ${{ github.repository }}
