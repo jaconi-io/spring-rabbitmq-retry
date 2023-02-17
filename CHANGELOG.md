@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/jaconi-io/spring-rabbitmq-retry/compare/v1.0.0...v1.1.0) (2023-02-17)
+
+
+### Features
+
+* add support for plain AMQP messages ([eac068f](https://github.com/jaconi-io/spring-rabbitmq-retry/commit/eac068f018bbb9c9aa69c959fb86542f7f17277e))
+
 # 1.0.0 (2023-01-10)
 
 
