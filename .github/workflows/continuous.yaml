@@ -15,7 +15,7 @@ jobs:
 
     steps:
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           # We need ${{github.event.pull_request.commits}} + 1 commits.
           fetch-depth: 0
@@ -37,7 +37,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -75,7 +75,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           # Use a different token so subsequent workflows are executed.
           # See https://github.community/t/action-does-not-trigger-another-on-push-tag-action/17148
