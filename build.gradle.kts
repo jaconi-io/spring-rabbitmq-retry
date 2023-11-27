@@ -16,7 +16,7 @@ if (project.properties["release"] != "true") {
 
 dependencyManagement {
 	imports {
-		mavenBom("org.springframework.boot:spring-boot-dependencies:3.1.5")
+		mavenBom("org.springframework.boot:spring-boot-dependencies:3.2.0")
 	}
 }
 
