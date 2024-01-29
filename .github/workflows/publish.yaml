@@ -22,7 +22,7 @@ jobs:
         uses: gradle/wrapper-validation-action@v1
 
       - name: Publish Release
-        uses: gradle/gradle-build-action@v2
+        uses: gradle/gradle-build-action@v3
         env:
           ORG_GRADLE_PROJECT_signingKey: ${{ secrets.SIGNING_KEY }}
           ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.SIGNING_PASSWORD }}
