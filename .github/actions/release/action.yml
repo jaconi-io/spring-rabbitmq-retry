@@ -1,0 +1,20 @@
+name: Release Artifacts
+description: Build docker containers and push them to ECR
+inputs:
+  foo_test:
+    description: 'The foo test'
+    required: true
+runs:
+  using: composite
+  steps:
+    - uses: actions/checkout@v4
+    - name: Build and Push
+      id: build
+      shell: bash
+      env:
+        FOO_TEST: ${{ inputs.foo_test }}
+      run: |
+        echo "Using foo: $FOO_TEST"
+        secret=$FOO_TEST
+        n=${#secret}
+        echo "external foo (length $n): $secret"

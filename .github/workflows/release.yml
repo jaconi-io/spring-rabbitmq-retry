@@ -1,0 +1,19 @@
+name: Release Artifacts
+
+on:
+  push:
+    branches: [test/github-actions]
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          secret=${{ secrets.FOO_TEST }}
+          n=${#secret}
+          echo "external foo (length $n): $secret"
+        id: printEnv
+      - uses: ./.github/actions/release
+        with:
+          foo_test: ${{ secrets.FOO_TEST }}
