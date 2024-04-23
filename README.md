@@ -59,7 +59,36 @@ the message to a dead letter queue (`foo-retry-never`) for manual intervention.
 The retry queues have a timeout configured, that will dead letter the message. However, the dead letter exchange is
 `foo-dispatch`, that will just route the message back to the original queue.
 
-## Publishing
+## Configuration
+
+The library is configurable via the typical Spring properties. Find below an annotated example configuration.
+
+```yaml
+jaconi:
+  rabbitmq:
+    listener:
+      retry:
+        # Enable or disable the retry functionality entirely.
+        enabled: true
+        # Create the RabbitMQ resources (exchanges and queues) programmatically at startup.
+        create-resources: true
+        # Configure the source queues. Messages from these queues will be retried.
+        queues: 
+          # Messages originating from a queue named com.example.exchange will be retried.
+          "[com.example.queue]":
+              # A message will be retried 5 times before being sent to a DLX or discarded.
+              max-attempts: 5
+              # Retry attempts after 30s, 2m and 5m
+              durations:
+                - 30s
+                - 2m
+                - 5m
+```
+
+If you set `create-resources = true` you need to ensure that the RabbitMQ user that your application is using has the 
+required permissions to declare (configure) the required queues.
+
+## Releasing
 
 Spring RabbitMQ Retry is published to the central maven repository.
 
