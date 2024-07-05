@@ -9,7 +9,7 @@ When using Spring RabbitMQ, a listener might look like this:
 ```java
 class MyListener {
     @RabbitListener(queues = "foo")
-    public void handle(Message<MyMessage> msg) {
+    public void handle(Message msg) {
         processMessage(msg);
     }
 }
@@ -34,7 +34,7 @@ code might look like this:
 ```java
 class MyListener {
     @RabbitListener(queues = "foo")
-    public void handle(Message<MyMessage> msg) {
+    public void handle(Message msg) {
         try {
             processMessage(msg);
         } catch (BackendTimeoutExceptoin e) {
