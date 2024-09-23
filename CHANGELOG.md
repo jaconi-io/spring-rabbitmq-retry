@@ -64,7 +64,7 @@
 
 ### Features
 
-* github actions ([0f3f860](https://github.com/jaconi-io/spring-rabbitmq-retry/commit/0f3f86048fa893b60f8cb8962a15b9c9a545627a))
+* GitHub actions ([0f3f860](https://github.com/jaconi-io/spring-rabbitmq-retry/commit/0f3f86048fa893b60f8cb8962a15b9c9a545627a))
 * initial commit ([7b42aec](https://github.com/jaconi-io/spring-rabbitmq-retry/commit/7b42aec084fd4fd21904a935324d40d0b476916d))
 * maven publish ([840108a](https://github.com/jaconi-io/spring-rabbitmq-retry/commit/840108ad21c1b904fcea555a70cbf3adbd33c351))
 * retry per queue ([21ce36b](https://github.com/jaconi-io/spring-rabbitmq-retry/commit/21ce36b750a732239af36e18e0e20f264d434e1b))

@@ -1,7 +1,6 @@
 package io.jaconi.spring.rabbitmq.retry;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.amqp.rabbit.config.ContainerCustomizer;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
@@ -38,10 +37,6 @@ class RetryAutoConfigurationTest {
                 .run(context -> {
                     assertThat(context).hasNotFailed();
                     assertThat(context).hasBean("retryContainerCustomizer");
-
-                    context.getBean(ContainerCustomizer.class);
-
-
                 });
     }
 }

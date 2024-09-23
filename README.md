@@ -15,8 +15,8 @@ class MyListener {
 }
 ```
 
-By default, any exception thrown in the listener will immediately lead to the message being requeued. In many cases
-exceptions are caused by either malformed messages or unavailable backends. In both cases, requeuing the message will
+By default, any exception thrown in the listener will immediately lead to the message being re-queued. In many cases
+exceptions are caused by either malformed messages or unavailable backends. In both cases, re-queuing the message will
 not help. If a backend is unavailable due to being overloaded, this behavior is harmful.
 
 A solution to this problem is exponential backoff. A message will not be retried immediately, but after some delay. For
@@ -37,7 +37,7 @@ class MyListener {
     public void handle(Message msg) {
         try {
             processMessage(msg);
-        } catch (BackendTimeoutExceptoin e) {
+        } catch (BackendTimeoutException e) {
             // Backend will probably come back. Retry.
             throw new RetryMessagesException(msg);
         } catch (MalformedMessageException e) {
@@ -88,12 +88,45 @@ jaconi:
 If you set `create-resources = true` you need to ensure that the RabbitMQ user that your application is using has the 
 required permissions to declare (configure) the required queues.
 
+## Manual Acknowledgement
+
+When dealing with situations where the retry error handler cannot be used (for example, when dealing with manual `ack`
+and `nack`), the `RetryService` can be used directly:
+
+```java
+class MyListener {
+    
+    @Autowired
+    private RetryService retryService;
+    
+    @RabbitListener(queues = "foo")
+    public void handle(Message msg, Channel ch) {
+        try {
+            processMessage(msg);
+
+            // Acknowledge successfully processed messages.
+            ch.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+        } catch (BackendTimeoutException e) {
+            // Backend will probably come back. Retry.
+            retryService.retry(msg);
+
+            // Acknowledge messages scheduled for retry.
+            ch.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+        } catch (MalformedMessageException e) {
+            // The message will not be fixed by retrying...
+            // Log and discard.
+            ch.basicNack(message.getMessageProperties().getDeliveryTag(), false, false);
+        }
+    }
+}
+```
+
 ## Releasing
 
 Spring RabbitMQ Retry is published to the central maven repository.
 
 Usually, publishing happens automatically via GitHub Actions. However, if you are an employee of jaconi, you can also
-publish releases manually. To publish a release, you will need to configure the GPG private signing key and the keys
+publish releases manually. To publish a release, you will need to configure the GPG private signing key and the key's
 passphrase:
 
 ```
