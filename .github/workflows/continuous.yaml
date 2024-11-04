@@ -52,7 +52,7 @@ jobs:
 
       - name: JUnit Report
         if: always() # always run even if the previous step fails
-        uses: mikepenz/action-junit-report@v4
+        uses: mikepenz/action-junit-report@v5
         with:
           report_paths: 'build/test-results/*/*.xml'
 
