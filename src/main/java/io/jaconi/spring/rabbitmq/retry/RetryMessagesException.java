@@ -1,5 +1,6 @@
 package io.jaconi.spring.rabbitmq.retry;
 
+import lombok.Getter;
 import org.springframework.amqp.support.converter.MessagingMessageConverter;
 import org.springframework.messaging.Message;
 
@@ -7,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
+@Getter
 public class RetryMessagesException extends RuntimeException {
     private static final MessagingMessageConverter CONVERTER = new MessagingMessageConverter();
     private final Collection<Message<?>> messages;
@@ -69,9 +71,5 @@ public class RetryMessagesException extends RuntimeException {
         super(message, cause);
         this.messages = new ArrayList<>();
         this.messages.addAll(messages);
-    }
-
-    public Collection<Message<?>> getMessages() {
-        return messages;
     }
 }
