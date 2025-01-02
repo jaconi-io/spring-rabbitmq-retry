@@ -4,7 +4,7 @@ plugins {
 	`java-library`
 	`maven-publish`
 	signing
-	id("io.spring.dependency-management") version "1.1.6"
+	id("io.spring.dependency-management") version "1.1.7"
 }
 
 group = "io.jaconi"
