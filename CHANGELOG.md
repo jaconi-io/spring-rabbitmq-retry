@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/jaconi-io/spring-rabbitmq-retry/compare/v1.1.26...v1.2.0) (2025-01-28)
+
+
+### Features
+
+* add retry service ([5a85263](https://github.com/jaconi-io/spring-rabbitmq-retry/commit/5a85263ba1719fbf315d9f8e0245cc17bc7ed264)), closes [#32](https://github.com/jaconi-io/spring-rabbitmq-retry/issues/32)
+
 ## [1.1.26](https://github.com/jaconi-io/spring-rabbitmq-retry/compare/v1.1.25...v1.1.26) (2025-01-27)
 
 ## [1.1.25](https://github.com/jaconi-io/spring-rabbitmq-retry/compare/v1.1.24...v1.1.25) (2025-01-02)
