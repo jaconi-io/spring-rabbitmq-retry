@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Import;
 @AutoConfiguration(after = RabbitAutoConfiguration.class)
 @ConditionalOnProperty(value = "jaconi.rabbitmq.listener.retry.enabled", havingValue = "true")
 @EnableConfigurationProperties(RetryProperties.class)
-@Import({RetryErrorHandler.class, RetryResourceConfiguration.class})
+@Import({RetryService.class, RetryErrorHandler.class, RetryResourceConfiguration.class})
 @RequiredArgsConstructor
 public class RetryAutoConfiguration {
     private static final String NOOP_LOGGER = "io.jaconi.spring.rabbitmq.retry.noop";
