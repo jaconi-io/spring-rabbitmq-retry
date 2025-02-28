@@ -1,3 +1,7 @@
+[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/jaconi-io/spring-rabbitmq-retry/continuous.yaml?branch=main)](https://github.com/jaconi-io/spring-rabbitmq-retry/actions/workflows/continuous.yaml)
+[![GitHub License](https://img.shields.io/github/license/jaconi-io/spring-rabbitmq-retry)](https://github.com/jaconi-io/spring-rabbitmq-retry?tab=MIT-1-ov-file#readme)
+[![Maven Central Version](https://img.shields.io/maven-central/v/io.jaconi/spring-rabbitmq-retry)](https://central.sonatype.com/artifact/io.jaconi/spring-rabbitmq-retry)
+
 # Spring RabbitMQ Retry
 
 Retries and exponential backoff for Spring AMQP.
