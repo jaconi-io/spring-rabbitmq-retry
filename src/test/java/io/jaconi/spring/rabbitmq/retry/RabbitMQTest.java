@@ -21,7 +21,7 @@ abstract class RabbitMQTest {
     protected static final String QUEUE = "test-queue";
     protected static final String ROUTING_KEY = "foo";
 
-    static final RabbitMQContainer rabbit = new RabbitMQContainer("rabbitmq:3.13-management-alpine");
+    static final RabbitMQContainer rabbit = new RabbitMQContainer("rabbitmq:4.0-management-alpine");
 
     @Autowired
     @SuppressWarnings("unused")
