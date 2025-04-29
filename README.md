@@ -151,5 +151,5 @@ sonatypePassword=<password>
 Once everything is set up, you should be able to publish snapshots using
 
 ```
-./gradlew publish
+./gradlew publishAllPublicationsToCentralPortal
 ```
