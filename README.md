@@ -140,12 +140,12 @@ export ORG_GRADLE_PROJECT_signingPassword=<GPG signing key passphrase>
 
 If you are having issues setting the multiline signing key as an environment variable, you can use Base64 encoding.
 
-Additionally, you will need credentials for [https://s01.oss.sonatype.org](https://s01.oss.sonatype.org). Configure
+Additionally, you will need credentials for [https://central.sonatype.com](https://central.sonatype.com). Configure
 these in `~/.gradle/gradle.properties` like this:
 
 ```
-ossrhUsername=<username>
-ossrhPassword=<password>
+sonatypeUsername=<username>
+sonatypePassword=<password>
 ```
 
 Once everything is set up, you should be able to publish snapshots using
@@ -153,7 +153,3 @@ Once everything is set up, you should be able to publish snapshots using
 ```
 ./gradlew publish
 ```
-
-If your [https://s01.oss.sonatype.org](https://s01.oss.sonatype.org) credentials do not have sufficient privileges,
-create a ticket for manual approval, as described here:
-[https://central.sonatype.org/publish/manage-permissions/](https://central.sonatype.org/publish/manage-permissions/)
