@@ -4,6 +4,7 @@ plugins {
 	`java-library`
 	`maven-publish`
 	signing
+	id("com.gradleup.nmcp") version("0.1.2")
 	id("io.spring.dependency-management") version "1.1.7"
 }
 
@@ -66,26 +67,6 @@ publishing {
 				}
 			}
 
-			repositories {
-				maven {
-					credentials {
-						// Configure by setting the ORG_GRADLE_PROJECT_sonatypeUsername environment variable.
-						val sonatypeUsername: String? by project
-						username = sonatypeUsername
-
-						// Configure by setting the ORG_GRADLE_PROJECT_sonatypePassword environment variable.
-						val sonatypePassword: String? by project
-						password = sonatypePassword
-					}
-
-					url = if (version.endsWith("-SNAPSHOT")) {
-						uri("https://central.sonatype.com/repository/maven-snapshots/")
-					} else {
-						uri("https://ossrh-staging-api.central.sonatype.com/service/local/staging/deploy/maven2/")
-					}
-				}
-			}
-
 			pom {
 				name.set("Spring RabbitMQ Retry")
 				description.set("Retries and exponential backoff for Spring AMQP.")
@@ -139,6 +120,20 @@ publishing {
 				}
 			}
 		}
+	}
+}
+
+nmcp {
+	centralPortal {
+		// Configure by setting the ORG_GRADLE_PROJECT_sonatypeUsername environment variable.
+		val sonatypeUsername: String? by project
+		username = sonatypeUsername
+
+		// Configure by setting the ORG_GRADLE_PROJECT_sonatypePassword environment variable.
+		val sonatypePassword: String? by project
+		password = sonatypePassword
+
+		publishingType = "USER_MANAGED" // or "AUTOMATIC"
 	}
 }
 
