@@ -69,19 +69,19 @@ publishing {
 			repositories {
 				maven {
 					credentials {
-						// Configure by setting the ORG_GRADLE_PROJECT_ossrhUsername environment variable.
-						val ossrhUsername: String? by project
-						username = ossrhUsername
+						// Configure by setting the ORG_GRADLE_PROJECT_sonatypeUsername environment variable.
+						val sonatypeUsername: String? by project
+						username = sonatypeUsername
 
-						// Configure by setting the ORG_GRADLE_PROJECT_ossrhPassword environment variable.
-						val ossrhPassword: String? by project
-						password = ossrhPassword
+						// Configure by setting the ORG_GRADLE_PROJECT_sonatypePassword environment variable.
+						val sonatypePassword: String? by project
+						password = sonatypePassword
 					}
 
 					url = if (version.endsWith("-SNAPSHOT")) {
-						uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+						uri("https://central.sonatype.com/repository/maven-snapshots/")
 					} else {
-						uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+						uri("https://ossrh-staging-api.central.sonatype.com/service/local/staging/deploy/maven2/")
 					}
 				}
 			}
