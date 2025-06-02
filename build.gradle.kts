@@ -31,7 +31,7 @@ dependencies {
 	implementation("org.springframework.amqp:spring-rabbit")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
-	testImplementation("org.testcontainers:rabbitmq:1.21.0")
+	testImplementation("org.testcontainers:rabbitmq:1.21.1")
 	testImplementation("org.junit.jupiter:junit-jupiter-api")
 	testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }
