@@ -1,3 +1,5 @@
+## [1.2.6](https://github.com/jaconi-io/spring-rabbitmq-retry/compare/v1.2.5...v1.2.6) (2025-06-02)
+
 ## [1.2.5](https://github.com/jaconi-io/spring-rabbitmq-retry/compare/v1.2.4...v1.2.5) (2025-04-29)
 
 ## [1.2.4](https://github.com/jaconi-io/spring-rabbitmq-retry/compare/v1.2.3...v1.2.4) (2025-04-29)
