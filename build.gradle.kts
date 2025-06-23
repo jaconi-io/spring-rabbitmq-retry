@@ -34,6 +34,7 @@ dependencies {
 	testImplementation("org.testcontainers:rabbitmq:1.21.2")
 	testImplementation("org.junit.jupiter:junit-jupiter-api")
 	testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 java {
