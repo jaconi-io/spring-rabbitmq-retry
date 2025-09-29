@@ -39,7 +39,7 @@ dependencies {
 
 java {
 	toolchain {
-		languageVersion.set(JavaLanguageVersion.of(17))
+		languageVersion.set(JavaLanguageVersion.of(25))
 	}
 
 	withJavadocJar()
@@ -48,6 +48,10 @@ java {
 
 repositories {
 	mavenCentral()
+}
+
+tasks.withType<JavaCompile>().configureEach {
+	options.release = 17
 }
 
 tasks.withType<Test> {
