@@ -20,7 +20,7 @@ jobs:
           fetch-depth: 0
           token: ${{ github.token }}
 
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v6
         with:
           node-version: lts/*
 
