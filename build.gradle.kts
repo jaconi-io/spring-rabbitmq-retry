@@ -17,7 +17,7 @@ if (project.properties["release"] != "true") {
 
 dependencyManagement {
 	imports {
-		mavenBom("org.springframework.boot:spring-boot-dependencies:3.5.7")
+		mavenBom("org.springframework.boot:spring-boot-dependencies:4.0.0")
 	}
 }
 
@@ -28,7 +28,7 @@ dependencies {
 	compileOnly("org.projectlombok:lombok")
 
 	implementation("org.springframework.boot:spring-boot-starter")
-	implementation("org.springframework.amqp:spring-rabbit")
+	implementation("org.springframework.boot:spring-boot-amqp")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.testcontainers:rabbitmq:1.21.3")
