@@ -80,7 +80,7 @@ jobs:
           token: ${{ secrets.SEMANTIC_RELEASE_GITHUB_TOKEN }}
           fetch-depth: 0
 
-      - uses: cycjimmy/semantic-release-action@v5
+      - uses: cycjimmy/semantic-release-action@v6
         with:
           extra_plugins: |
             @semantic-release/exec
