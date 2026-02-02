@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "io.jaconi"
-version = "1.2.17"
+version = "1.2.18"
 
 if (project.properties["release"] != "true") {
 	project.version = "${project.version}-SNAPSHOT"
