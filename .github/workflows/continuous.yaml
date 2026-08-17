@@ -47,9 +47,9 @@ jobs:
           java-version: '25'
           distribution: temurin
 
-      - uses: gradle/actions/wrapper-validation@v6.2.0
+      - uses: gradle/actions/wrapper-validation@v6.3.0
 
-      - uses: gradle/actions/setup-gradle@v6.2.0
+      - uses: gradle/actions/setup-gradle@v6.3.0
 
       - name: Run Tests
         run: ./gradlew test
