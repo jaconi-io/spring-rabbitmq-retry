@@ -3,6 +3,8 @@ package io.jaconi.spring.rabbitmq.retry;
 import java.util.Collections;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
+
+import org.jspecify.annotations.NonNull;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.ExchangeBuilder;
@@ -14,7 +16,6 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.lang.NonNull;
 
 @Configuration
 @ConditionalOnProperty(value = {"jaconi.rabbitmq.listener.retry.enabled",

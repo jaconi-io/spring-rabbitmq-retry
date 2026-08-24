@@ -11,7 +11,7 @@ plugins {
 group = "io.jaconi"
 version = "1.2.30"
 
-if (project.properties["release"] != "true") {
+if (!project.findProperty("release").toString().toBoolean()) {
 	project.version = "${project.version}-SNAPSHOT"
 }
 
@@ -131,12 +131,10 @@ publishing {
 nmcp {
 	centralPortal {
 		// Configure by setting the ORG_GRADLE_PROJECT_sonatypeUsername environment variable.
-		val sonatypeUsername: String? by project
-		username = sonatypeUsername
+		username.set(project.findProperty("sonatypeUsername").toString())
 
 		// Configure by setting the ORG_GRADLE_PROJECT_sonatypePassword environment variable.
-		val sonatypePassword: String? by project
-		password = sonatypePassword
+		password.set(project.findProperty("sonatypePassword").toString())
 
 		publishingType = "USER_MANAGED" // or "AUTOMATIC"
 	}
@@ -144,10 +142,10 @@ nmcp {
 
 signing {
 	// Configure by setting the ORG_GRADLE_PROJECT_signingKey environment variable.
-	val signingKey: String? by project
+	val signingKey = project.findProperty("signingKey").toString()
 
 	// Configure by setting the ORG_GRADLE_PROJECT_signingPassword environment variable.
-	val signingPassword: String? by project
+	val signingPassword = project.findProperty("signingPassword").toString()
 
 	useInMemoryPgpKeys(base64DecodeIfEncoded(signingKey), signingPassword)
 
