@@ -1,9 +1,9 @@
 package io.jaconi.spring.rabbitmq.retry;
 
+import org.jspecify.annotations.NonNull;
 import org.springframework.amqp.ImmediateAcknowledgeAmqpException;
-import org.springframework.amqp.rabbit.listener.ConditionalRejectingErrorHandler;
-import org.springframework.amqp.rabbit.support.ListenerExecutionFailedException;
-import org.springframework.lang.NonNull;
+import org.springframework.amqp.listener.ConditionalRejectingErrorHandler;
+import org.springframework.amqp.listener.ListenerExecutionFailedException;
 import org.springframework.stereotype.Component;
 
 /**
@@ -19,7 +19,7 @@ public class RetryErrorHandler extends ConditionalRejectingErrorHandler {
     public RetryErrorHandler(RetryService retryService) {
         super(new DefaultExceptionStrategy() {
             @Override
-            protected boolean isUserCauseFatal(@NonNull Throwable cause) {
+            protected boolean isUserCauseFatal(Throwable cause) {
                 // Do not requeue anything, even if default-requeue-rejected is true.
                 return true;
             }
