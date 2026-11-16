@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "io.jaconi"
-version = "1.2.34"
+version = "1.2.35"
 
 if (!project.findProperty("release").toString().toBoolean()) {
 	project.version = "${project.version}-SNAPSHOT"
